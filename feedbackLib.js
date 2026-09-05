@@ -28,30 +28,52 @@ function findById(id) {
   return false;
 }
 
-if (require.main === module) {
-  const result1 = addOne(
-    "John Smith",
-    "Great session on React components!",
-    5,
-    "mobile"
-  );
+function update(id, updatedData) {
+  const feedback = findById(id);
 
-  const result2 = addOne(
-    "Alice Brown",
-    "Very useful session!",
-    4,
-    "desktop"
-  );
+  if (feedback) {
+    if (updatedData.sender) {
+      feedback.sender = updatedData.sender;
+    }
 
-  console.log("Added:", result1);
-  console.log("Added:", result2);
-  console.log("getAll called:", getAll());
-  console.log("findById(1):", findById(1));
-  console.log("findById(98):", findById(98));
+    if (updatedData.message) {
+      feedback.message = updatedData.message;
+    }
+
+    if (updatedData.rating) {
+      feedback.rating = updatedData.rating;
+    }
+
+    if (updatedData.platform) {
+      feedback.platform = updatedData.platform;
+    }
+
+    return feedback;
+  }
+
+  return false;
+}
+
+function deleteOne(id) {
+  const feedback = findById(id);
+
+  if (feedback) {
+    const initialLength = feedbackArray.length;
+
+    feedbackArray = feedbackArray.filter(
+      (item) => item.id != id
+    );
+
+    return feedbackArray.length < initialLength;
+  }
+
+  return false;
 }
 
 module.exports = {
   addOne,
   getAll,
   findById,
+  update,
+  deleteOne,
 };
