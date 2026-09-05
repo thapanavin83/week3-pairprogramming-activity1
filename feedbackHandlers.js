@@ -18,14 +18,19 @@ const createFeedback = (req, res) => {
   if (newFeedback) {
     res.status(201).json(newFeedback);
   } else {
-    res.status(500).json({
-      message: "Failed to create feedback",
-    });
+    res.status(500).json({ message: "Failed to create feedback" });
   }
 };
 
 const getFeedbackById = (req, res) => {
-  res.json({ message: "Hello from getFeedbackById" });
+  const feedbackId = req.params.feedbackId;
+  const feedback = Feedback.findById(feedbackId);
+
+  if (feedback) {
+    res.json(feedback);
+  } else {
+    res.status(404).json({ message: "Feedback not found" });
+  }
 };
 
 const updateFeedback = (req, res) => {
